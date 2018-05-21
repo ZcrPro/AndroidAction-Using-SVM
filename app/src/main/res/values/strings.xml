@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">AndroidAction-Using-SVM</string>
+    <string name="app_name">Action-using-SVM</string>
+
+    <array name="Action">
+        <item>静止</item>
+        <item>走路</item>
+        <item>跑步</item>
+        <item>上楼</item>
+        <item>下楼</item>
+        <item>左右摇动</item>
+        <item>上下摇动</item>
+    </array>
+
+    <array name="HZ">
+        <item>SENSOR_DELAY_FASTEST</item>
+        <item>SENSOR_DELAY_GAME</item>
+        <item>SENSOR_DELAY_UI</item>
+        <item>SENSOR_DELAY_NORMAL</item>
+    </array>
 </resources>
