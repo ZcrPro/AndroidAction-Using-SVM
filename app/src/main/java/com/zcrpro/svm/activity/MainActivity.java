@@ -40,7 +40,6 @@ import static java.io.File.separator;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SVM mSvm;
     private CustomViewPager pager = null;
     private PagerTabStrip tabStrip = null;
     public String TAG = "tag";
@@ -110,53 +109,6 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
 
         crateDataDir();
-
-        copyFileToSd();
-
-        loadModelAndRange();
-    }
-
-    /**
-     * copy model 和 range文件到sd卡
-     */
-    private void copyFileToSd() {
-        try {
-            copyFileToSd(getAssets().open("model"), dir + separator + modelFileName);
-            copyFileToSd(getAssets().open("range"), dir + separator + rangeFileName);
-            copyFileToSd(getAssets().open("train"), dir + separator + trainFileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * copy文件到sd卡
-     */
-    private void copyFileToSd(InputStream in, String targetFilePath) {
-        FileOutputStream fileOutputStream = null;
-        File file = new File(targetFilePath);
-        if (file.exists()) {        // 如果文件已经存在就结束
-            return;
-        }
-        try {
-            fileOutputStream = new FileOutputStream(targetFilePath);
-            int len = 0;
-            byte[] b = new byte[1024];
-            while ((len = in.read(b)) != -1) {
-                fileOutputStream.write(b, 0, len);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fileOutputStream != null)
-                    fileOutputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     /**
@@ -171,27 +123,6 @@ public class MainActivity extends AppCompatActivity {
         if (!trainFile.exists()) {
             trainFile.mkdirs();
         }
-    }
-
-    /**
-     * 加载model和range
-     */
-    private void loadModelAndRange() {
-        try {
-            mSvm = new SVM(svm.svm_load_model(
-                    new BufferedReader(new InputStreamReader(new FileInputStream(dir + separator + modelFileName)))),
-                    inputStreamToArray(new FileInputStream(dir + separator + rangeFileName)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public boolean predictUnscaledTrain(String[] unScaleData) {
-        return mSvm.predictUnscaledTrain(unScaleData);
-    }
-
-    public double predictUnscaled(String[] unScaleData) {
-        return mSvm.predictUnscaled(unScaleData, false);
     }
 
     class MyPagerAdapter extends FragmentPagerAdapter {

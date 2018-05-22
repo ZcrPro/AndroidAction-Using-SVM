@@ -1,6 +1,7 @@
 package com.zcrpro.svm.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -109,7 +109,6 @@ public class CollectionFragment extends BaseFragment {
         mSensorHz.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                //System.out.println("progress" + progress);
                 mSensorHzInt = progress;
             }
 
@@ -187,6 +186,7 @@ public class CollectionFragment extends BaseFragment {
         public double[] accArr = new double[num];
         public int currentIndex = 0;
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
             /**
