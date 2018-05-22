@@ -1,6 +1,7 @@
 package com.zcrpro.svm.fragment;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,9 +13,11 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zcrpro.svm.R;
 import com.zcrpro.svm.activity.MainActivity;
+import com.zcrpro.svm.svm.SVM;
 import com.zcrpro.svm.svmlib.svm_predict;
 import com.zcrpro.svm.svmlib.svm_scale;
 import com.zcrpro.svm.svmlib.svm_train;
@@ -90,7 +93,7 @@ public class PredictFragment extends Fragment implements View.OnClickListener {
      */
     private void openStream() {
         try {
-            mBufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(dir + separator + trainFileName)));
+            mBufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(dir + separator + trainFileName+".txt")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,9 +121,12 @@ public class PredictFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_take_a_simple_data:
                 try {
                     String readLine = mBufferedReader.readLine();
-                    mFeatureData = readLine.split(SEPERATOR_SPACE);
-//                    mTvResult.setText(((MainActivity) getActivity()).predictUnscaledTrain(mFeatureData) ? "正确" : "错误");
-                    mFeatureListAdapter.notifyDataSetChanged();
+                    if (readLine!=null){
+                        mFeatureData = readLine.split(SEPERATOR_SPACE);
+                        mFeatureListAdapter.notifyDataSetChanged();
+                    }else {
+                        Toast.makeText(getActivity(), "数据已取完", Toast.LENGTH_SHORT).show();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -182,14 +188,19 @@ public class PredictFragment extends Fragment implements View.OnClickListener {
     class TrainModel extends Thread {
         @Override
         public void run() {
-            tarinModel(dir + separator + "train.txt",
-                    dir + separator + range,
-                    dir + separator + scaleFileName,
-                    dir + separator + modelFileName,
-                    dir + separator + train + separator + resultFileName,
-                    dir + separator + train + separator + modelInfo,
-                    dir + separator + train + separator + prdictInfo);
-            readTrainInfo();
+            try {
+                tarinModel(dir + separator + "train.txt",
+                        dir + separator + range,
+                        dir + separator + scaleFileName,
+                        dir + separator + modelFileName,
+                        dir + separator + train + separator + resultFileName,
+                        dir + separator + train + separator + modelInfo,
+                        dir + separator + train + separator + prdictInfo);
+                readTrainInfo();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getActivity(), "请先采集数据", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

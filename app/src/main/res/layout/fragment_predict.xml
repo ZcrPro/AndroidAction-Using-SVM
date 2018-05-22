@@ -10,6 +10,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:textSize="15sp"
             android:id="@+id/tv_train_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -46,6 +47,7 @@
     </LinearLayout>
 
     <TextView
+        android:textSize="15sp"
         android:id="@+id/tv_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
