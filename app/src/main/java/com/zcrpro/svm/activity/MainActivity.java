@@ -40,12 +40,12 @@ import static java.io.File.separator;
 
 public class MainActivity extends AppCompatActivity {
 
-    SVM mSvm;
-    CustomViewPager pager = null;
-    PagerTabStrip tabStrip = null;
+    private SVM mSvm;
+    private CustomViewPager pager = null;
+    private PagerTabStrip tabStrip = null;
     public String TAG = "tag";
-    List<Fragment> pagers;
-    List<String> titles;
+    private List<Fragment> pagers;
+    private List<String> titles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
         crateDataDir();
 
         copyFileToSd();
-
-        //findView();
 
         loadModelAndRange();
     }

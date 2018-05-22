@@ -1,6 +1,7 @@
 package com.zcrpro.svm.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -38,12 +39,12 @@ import static java.io.File.separator;
 
 public class SensorFragment extends Fragment implements View.OnClickListener {
 
-    View view;
-    MainActivity mActivity;
-    SensorManager sensorManager;
-    MySensorListener sensorListener;
-    Button mBtnOpenSensor, mBtnCloseSensor;
-    TextView mTvSensor, mTvResult;
+    private View view;
+    private MainActivity mActivity;
+    private SensorManager sensorManager;
+    private MySensorListener sensorListener;
+    private Button mBtnOpenSensor, mBtnCloseSensor;
+    private TextView mTvSensor, mTvResult;
 
     public SensorFragment() {
         // Required empty public constructor
@@ -119,6 +120,7 @@ public class SensorFragment extends Fragment implements View.OnClickListener {
         public double[] accArr = new double[num];
         public int currentIndex = 0;
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
             /**
@@ -134,12 +136,8 @@ public class SensorFragment extends Fragment implements View.OnClickListener {
                     String[] data = dataToFeaturesArr(accArr.clone());
                     double code = mSvm.predictUnscaled(data, false);
                     double act = (int) code / 100;
-                    double position = code - act * 100;
                     String strAct = actMapFromCode.get(act);
-//                    String strPosition = wzMapFromCode.get(position);
-                    System.out.println("--------" + code + ":" + act + ":" + position);
-                    mTvResult.setText("预测action：" + strAct);
-                    Log.d("TAG","预测action：" + strAct);
+                    mTvResult.setText("action：" + strAct);
                     currentIndex = 0;
                 }
                 accArr[currentIndex++] = a;

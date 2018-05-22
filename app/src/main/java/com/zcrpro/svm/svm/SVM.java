@@ -28,7 +28,7 @@ public class SVM {
     static int mFeaturesCount;  // 特征数量
     double mScaleLower;  // 归一化的最小值(本项目中使用0,1规划,这个数据来自于train文件的第一行)
     double mScaleUpper;  // 归一化的最大值(本项目中使用0,1规划,这个数据来自于train文件的第一行)
-    double[][] mFeaturesData;    // 用来存放每个特征的最大值和最小值
+    double[][] mFeaturesData; // 用来存放每个特征的最大值和最小值
     svm_model mSvmModel;
 
     /**

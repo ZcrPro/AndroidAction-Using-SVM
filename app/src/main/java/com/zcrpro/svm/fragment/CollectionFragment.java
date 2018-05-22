@@ -31,17 +31,15 @@ import static com.zcrpro.svm.util.Constant.dir;
 
 public class CollectionFragment extends BaseFragment {
 
-    View view;                                          // 页面根视图
-    Spinner mSpAction;          // action,postion,sensorhz 下拉选则器
-    Button mBtnStartCollection, mBtnStopCollection;     // 开始采集,结束采集的按钮
-    EditText etFileInfo;                                // 文件信息
-    TextView mTvResult, mTvNum;                                 // 显示结果
-    SeekBar mSensorHz;
-    int trainNum;
+    private View view;                                          // 页面根视图
+    private Spinner mSpAction;                                  // 下拉选则器
+    private Button mBtnStartCollection, mBtnStopCollection;     // 开始采集,结束采集的按钮
+    private TextView mTvResult, mTvNum;                         // 显示结果
+    private SeekBar mSensorHz;
+    private int trainNum;
 
-    double mAtionInt = 1;                               // action 的label
-    double mPostionInt = 1;                             // position 的label
-    int mSensorHzInt;                                   // sensor采样频率
+    private double mAtionInt = 1;                               // action 的label
+    private int mSensorHzInt;                                   // sensor采样频率
 
     SensorManager sensorManager;                        // 传感器管理器
     MySensorListener sensorListener;                    // 传感器监听类,当传感器数据变化时会调用该类的onSensorChanged()方法
@@ -73,10 +71,6 @@ public class CollectionFragment extends BaseFragment {
     private void crateTrainFile() {
         try {
             String fileNume = "train";
-//            String fileNameInfo = etFileInfo.getText().toString().trim();
-//            if (!TextUtils.isEmpty(fileNameInfo)) {
-//                fileNume += fileNameInfo;
-//            }
             fileNume += ".txt";
             outputStream = new FileOutputStream(dir + File.separator + fileNume);
         } catch (FileNotFoundException e) {
@@ -86,11 +80,8 @@ public class CollectionFragment extends BaseFragment {
 
     protected void findView() {
         mSpAction = (Spinner) view.findViewById(R.id.sp_action);
-//        mSpPostioin = (Spinner) view.findViewById(R.id.sp_position);
-        //mSensorHz = (Spinner) view.findViewById(R.id.sp_hz);
         mBtnStartCollection = (Button) view.findViewById(R.id.btn_start_collection);
         mBtnStopCollection = (Button) view.findViewById(R.id.btn_stop_collection);
-        //etFileInfo = (EditText) view.findViewById(R.id.et_file_info);
         mTvResult = (TextView) view.findViewById(R.id.tv_result);
         mTvNum = (TextView) view.findViewById(R.id.tv_num);
         mSensorHz = (SeekBar) view.findViewById(R.id.sb_hz);
@@ -115,17 +106,6 @@ public class CollectionFragment extends BaseFragment {
 
             }
         });
-//        mSpPostioin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                mPostionInt = position + 1;
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
         mSensorHz.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -217,7 +197,7 @@ public class CollectionFragment extends BaseFragment {
                 float y = sensorEvent.values[1];
                 float z = sensorEvent.values[2];
                 double a = Math.sqrt((double) (x * x + y * y + z * z));
-                mTvResult.setText("lable:" + (mAtionInt * 100 + mPostionInt) + "加速度:" + a);
+                mTvResult.setText("lable:" + (mAtionInt * 100) + "加速度:" + a);
                 mTvNum.setText("采集样本数量:" + trainNum);
                 if (currentIndex >= num) {
                     String[] data = dataToFeaturesArr(accArr.clone());
@@ -242,7 +222,7 @@ public class CollectionFragment extends BaseFragment {
      */
     private void saveDataToFile(String[] data) {
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(mAtionInt * 100 + mPostionInt);
+        stringBuffer.append(mAtionInt * 100);
         for (String s : data) {
             stringBuffer.append(" " + s);
         }

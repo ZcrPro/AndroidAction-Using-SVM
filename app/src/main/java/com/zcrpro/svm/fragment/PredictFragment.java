@@ -42,14 +42,14 @@ import static java.io.File.separator;
 
 public class PredictFragment extends Fragment implements View.OnClickListener {
 
-    View view;                                  // 整个页面视图
-    ListView mFeatureList;                      // 显示特征的listview
-    FeatureListAdapter mFeatureListAdapter;     // listView的适配器
-    Button mBtnTakeASimpleData, mBtnTrainData;                 // 取一条样本数据的按钮
+    private View view;                                  // 整个页面视图
+    private ListView mFeatureList;                      // 显示特征的listview
+    private FeatureListAdapter mFeatureListAdapter;     // listView的适配器
+    private Button mBtnTakeASimpleData, mBtnTrainData;                 // 取一条样本数据的按钮
 
-    TextView mTvResult, mTvTrainResult;                         // 显示样本数据用model测试的结果
-    String[] mFeatureData;
-    BufferedReader mBufferedReader;
+    private TextView mTvResult, mTvTrainResult;                         // 显示样本数据用model测试的结果
+    private  String[] mFeatureData;
+    private BufferedReader mBufferedReader;
 
 
     public PredictFragment() {
@@ -119,7 +119,7 @@ public class PredictFragment extends Fragment implements View.OnClickListener {
                 try {
                     String readLine = mBufferedReader.readLine();
                     mFeatureData = readLine.split(SEPERATOR_SPACE);
-                    mTvResult.setText(((MainActivity) getActivity()).predictUnscaledTrain(mFeatureData) ? "正确" : "错误");
+//                    mTvResult.setText(((MainActivity) getActivity()).predictUnscaledTrain(mFeatureData) ? "正确" : "错误");
                     mFeatureListAdapter.notifyDataSetChanged();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -222,10 +222,7 @@ public class PredictFragment extends Fragment implements View.OnClickListener {
         creatScaleFile(new String[]{"-l", "0", "-u", "1", "-s", rangeFile, trainFile}, scaleFile);
         creatModelFile(new String[]{"-s", "0", "-c", "128.0", "-t", "2", "-g", "8.0", "-e", "0.1", scaleFile, modelFile}, modelInfo);
         creatPredictFile(new String[]{scaleFile, modelFile, result}, prdictInfo);
-        //svm_train.main(new String[]{"-s", "0", "-c", "128.0", "-t", "2", "-g", "8.0", "-e", "0.1", scaleFile, modelFile});
-        //svm_predict.main(new String[]{scaleFile, modelFile, result});
     }
-
 
     /**
      * 训练数据train 进行归一化处理并生生scale文件
